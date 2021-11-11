@@ -40,17 +40,29 @@ function getDigimonInput(){
     const responseJson = JSON.parse(this.responseText)
     
     if(responseJson.error){
-      showResponseMessage(responseJson.message)
-      toggleLoading(false)
+      console.log(responseJson.ErrorMsg)
     } else {
-     renderDigimonInput(responseJson)
-      console.log(responseJson)
-      toggleLoading(true)
+      if(responseJson.ErrorMsg){
+        listDigimonEl.innerHTML = "";
+        listDigimonEl.innerHTML += `
+        <div id="not-found">
+        <h2>"${input.value}" is not found! </h2>
+        </div>
+        `;
+        toggleLoading(true)
+      }else {
+        renderDigimonInput(responseJson)
+        toggleLoading(false)
+      }
+     //renderDigimonInput(responseJson)
+      //console.log(responseJson.name)
+     // console.log(digimonOut)
+      //toggleLoading(true)
     }
   }
   
   xhr.onerror = function(){
-    showResponseMessage()
+    console.log("coba lagi")
   }
   
   xhr.open("GET", `https://digimon-api.vercel.app/api/digimon/name/${input.value}`);
@@ -77,12 +89,14 @@ const renderDigimonInput= (digimons) => {
 listDigimonEl.innerHTML = ""
       digimons.forEach(digimon => {
             listDigimonEl.innerHTML += `
+            <div id="digimon-user">
     <div id="content-digimon__card">
        <img src="${digimon.img}" alt="" />
     <div id="content-digimon__card--desc">
   <h5>Name : ${digimon.name}</h5>
        <h5>Level : ${digimon.level}</h5>
      </div>
+   </div>
    </div>
            `;
        });
@@ -101,7 +115,6 @@ function toggleLoading(show){
     
 btnSearch.addEventListener('click', function(){
   getDigimonInput()
-  console.log(input.value)
 })
 
 getDigimon()
