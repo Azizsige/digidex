@@ -50,10 +50,11 @@ navbar h2 {
 }
 
 #content-digimon {
-  height: auto;
+  height: 100%;
   text-align: center;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -84,6 +85,20 @@ navbar h2 {
   justify-content: center;
   align-items: center;
   animation: 1s loading alternate infinite;
+}
+
+#not-found { 
+  height: 25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#digimon-user {
+  height: 25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hide {
