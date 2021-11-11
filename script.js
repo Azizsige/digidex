@@ -1,6 +1,16 @@
 const btnSearch = document.querySelector("#btn-search");
 const input = document.querySelector("#input");
-const listDigimonEl = document.querySelector("#content-digimon");
+const listDigimonEl = document.querySelector("#digimon-card__cont");
+const containerDigimonEl = document.querySelector("#content-digimon");
+const resultLevel = document.querySelector("#result");
+
+const level = document.querySelector("#level");
+
+level.addEventListener("change", function(){
+  console.log(level.value)
+  getDigimonLevel(level.value)
+})
+
 
 function getDigimon() {
     const xhr = new XMLHttpRequest();
@@ -69,6 +79,25 @@ function getDigimonInput(){
   xhr.send();
 }
 
+function getDigimonLevel(option) {
+  const xhr = new XMLHttpRequest();
+  
+  xhr.onload = function(){
+    const responseJson = JSON.parse(this.responseText);
+    renderDigimonLevel(responseJson);
+    console.log(responseJson)
+    toggleLoading(true)
+  }
+    
+  xhr.onerror = function() {
+        showResponseMessage();
+  }
+    
+xhr.open("GET", `https://digimon-api.vercel.app/api/digimon/level/${option}`);
+     // Mengirimkan request
+     xhr.send();
+}
+
 const renderAllDigimons= (digimons) => {
 listDigimonEl.innerHTML = ""
       digimons.forEach(digimon => {
@@ -86,6 +115,10 @@ listDigimonEl.innerHTML = ""
     
     
 const renderDigimonInput= (digimons) => {
+resultLevel.innerHTML = `
+      <h4>Result for "${input.value}"</h4>
+     `;
+     
 listDigimonEl.innerHTML = ""
       digimons.forEach(digimon => {
             listDigimonEl.innerHTML += `
@@ -98,6 +131,25 @@ listDigimonEl.innerHTML = ""
      </div>
    </div>
    </div>
+           `;
+       });
+
+    };
+    
+const renderDigimonLevel= (digimons) => {
+  listDigimonEl.innerHTML = ""
+ resultLevel.innerHTML = `
+      <h4>Result for "${level.value}"</h4>
+     `
+ digimons.forEach(digimon => {
+    listDigimonEl.innerHTML += `
+       <div id="content-digimon__card">
+         <img src="${digimon.img}" alt="" />
+         <div id="content-digimon__card--desc">
+         <h5>Name : ${digimon.name}</h5>
+         <h5>Level : ${digimon.level}</h5>
+         </div>
+        </div>
            `;
        });
 
