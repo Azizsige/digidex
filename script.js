@@ -184,7 +184,7 @@ listDigimonEl.innerHTML += `
         <h2>Searching "${input.value}"</h2>
       </div>
           `
-  getDigimonInput()
+  getDigimonInput();
 })
 
 getDigimon()
