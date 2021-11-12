@@ -3,11 +3,20 @@ const input = document.querySelector("#input");
 const listDigimonEl = document.querySelector("#digimon-card__cont");
 const containerDigimonEl = document.querySelector("#content-digimon");
 const resultLevel = document.querySelector("#result");
+const loader = document.querySelector("#loading")
 
 const level = document.querySelector("#level");
 
+
+
 level.addEventListener("change", function(){
-  console.log(level.value)
+listDigimonEl.innerHTML = ""
+listDigimonEl.innerHTML += `
+ <div id="loading" class="hide">
+        <h2>Searching All "${level.value}" Digimon</h2>
+      </div>
+          `
+  console.log(level.text)
   getDigimonLevel(level.value)
 })
 
@@ -19,18 +28,17 @@ xhr.onload = function() {
         const responseJson = JSON.parse(this.responseText);
         let random = Math.floor(Math.random() * 40)
         console.log(random)
-        responseJson.length = random + 5
+responseJson.length = random;
  // for(random; random<=responseJson.length; random++) {
          //console.log(responseJson[random])
       // }
        
         if(responseJson.error) {
            showResponseMessage(responseJson.message);
-           toggleLoading(false)
         } else {
+          
 renderAllDigimons(responseJson);
            console.log(responseJson)
-           toggleLoading(true)
         }
     }
     
@@ -48,21 +56,33 @@ function getDigimonInput(){
   
   xhr.onload = function(){
     const responseJson = JSON.parse(this.responseText)
-    
     if(responseJson.error){
       console.log(responseJson.ErrorMsg)
     } else {
       if(responseJson.ErrorMsg){
+resultLevel.innerHTML = `
+      <h4>Result for "${input.value}"</h4>
+     `;
         listDigimonEl.innerHTML = "";
         listDigimonEl.innerHTML += `
         <div id="not-found">
         <h2>"${input.value}" is not found! </h2>
         </div>
         `;
-        toggleLoading(true)
+        input.value = ""
       }else {
-        renderDigimonInput(responseJson)
-        toggleLoading(false)
+        if( input.value == ""){
+listDigimonEl.innerHTML = "";
+        listDigimonEl.innerHTML += `
+        <div id="not-found">
+        <h2>"${input.value}" is not found! </h2>
+        </div>
+        `;
+        console.log("kosong")
+        } else {
+         renderDigimonInput(responseJson)
+        input.value = ""
+        }
       }
      //renderDigimonInput(responseJson)
       //console.log(responseJson.name)
@@ -86,7 +106,6 @@ function getDigimonLevel(option) {
     const responseJson = JSON.parse(this.responseText);
     renderDigimonLevel(responseJson);
     console.log(responseJson)
-    toggleLoading(true)
   }
     
   xhr.onerror = function() {
@@ -102,7 +121,7 @@ const renderAllDigimons= (digimons) => {
 listDigimonEl.innerHTML = ""
       digimons.forEach(digimon => {
             listDigimonEl.innerHTML += `
-    <div id="content-digimon__card">
+    <div id="content-digimon__card" class="content-digimon__card">
        <img src="${digimon.img}" alt="" />
     <div id="content-digimon__card--desc">
   <h5>Name : ${digimon.name}</h5>
@@ -111,6 +130,8 @@ listDigimonEl.innerHTML = ""
    </div>
            `;
        });
+       
+      // loadingScroll.classList.remove("")
     };
     
     
@@ -154,18 +175,15 @@ const renderDigimonLevel= (digimons) => {
        });
 
     };
-
-
-
-function toggleLoading(show){
-      if(show){
-        return document.querySelector("#loading").classList.add("hide")
-      } else {
-        return document.querySelector("#loading").classList.remove("hide")
-      }
-    }
     
+
 btnSearch.addEventListener('click', function(){
+  listDigimonEl.innerHTML = ""
+listDigimonEl.innerHTML += `
+ <div id="loading" class="hide">
+        <h2>Searching "${input.value}"</h2>
+      </div>
+          `
   getDigimonInput()
 })
 
