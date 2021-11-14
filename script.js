@@ -4,13 +4,13 @@ const listDigimonEl = document.querySelector("#digimon-card__cont");
 const containerDigimonEl = document.querySelector("#content-digimon");
 const resultLevel = document.querySelector("#result");
 const loader = document.querySelector("#loading")
-const btnNext = document.querySelector("#nextPage")
 
 const level = document.querySelector("#level");
 
 
 
 level.addEventListener("change", function() {
+  resultLevel.innerHTML = ""
   listDigimonEl.innerHTML = ""
   listDigimonEl.innerHTML += `
   <div id="loading" class="hide">
@@ -55,6 +55,7 @@ function getDigimonInput() {
       console.log(responseJson.ErrorMsg)
     } else {
       if (responseJson.ErrorMsg) {
+        resultLevel.innerHTML = ``
         resultLevel.innerHTML = `
         <h4>Result for "${input.value}"</h4>
         `;
@@ -79,10 +80,6 @@ function getDigimonInput() {
           input.value = ""
         }
       }
-      //renderDigimonInput(responseJson)
-      //console.log(responseJson.name)
-      // console.log(digimonOut)
-      //toggleLoading(true)
     }
   }
 
@@ -132,6 +129,7 @@ const renderAllDigimons = (digimons) => {
 };
 
 const renderDigimonInput = (digimons) => {
+  resultLevel.innerHTML =""
   resultLevel.innerHTML = `
   <h4>Result for "${input.value}"</h4>
   `;
@@ -155,6 +153,7 @@ const renderDigimonInput = (digimons) => {
 
 const renderDigimonLevel = (digimons) => {
   listDigimonEl.innerHTML = ""
+  resultLevel.innerHTML = ""
   resultLevel.innerHTML = `
   <h4>Result for "${level.value}"</h4>
   `
@@ -173,6 +172,7 @@ const renderDigimonLevel = (digimons) => {
 };
 
 btnSearch.addEventListener('click', function() {
+  resultLevel.innerHTML = ""
   listDigimonEl.innerHTML = ""
   listDigimonEl.innerHTML += `
   <div id="loading" class="hide">
