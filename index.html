@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="UTF-8" />
+  <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-  <title>Digimon Dex</title>
-
+  <meta name="google" content="notranslate" />
   <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+  <title>Digimon Dex</title>
 </head>
 <body>
   <header>
@@ -17,11 +16,11 @@
   <main>
     <div id="content-search">
       <div id="content-search__input">
-        <button type="submit" id="btn-search">Search</button>
         <input type="text" name="" id="input" value="" placeholder="Digimon Name" />
+        <button type="submit" id="btn-search">Search</button>
       </div>
       <div id="content-search__filter">
-        <label for="level">By Levels:</label>
+        <label id="bylevel" for="level">Searching By Levels: </label>
         <select name="cars" id="level">
           <option class="option" value="in-training">In Training</option>
           <option class="option" value="Rookie">Rookie</option>
@@ -41,20 +40,13 @@
           <h2>Loading . . .</h2>
         </div>
       </div>
-
-   
     </main>
-    
-   <button id="nextPage" type="submit">Next</button>
 
     <footer>
       <h5>All Right Reserved</h5>
       <h5>made with ❤️ by @azizsige</h5>
       <h5>Special Thanks to Digimon API</h5>
     </footer>
-
-
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
   </body>
 </html>
