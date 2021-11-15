@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google" content="notranslate" />
   <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/simplePagination.min.css">
   <title>Digimon Dex</title>
 </head>
 <body>
@@ -35,12 +38,14 @@
     <div id="content-digimon">
       <div id="result"></div>
 
-      <div id="digimon-card__cont" class="digimon-card__cont">
+      <div id="digimon-card__cont" class="wrapper">
         <div id="loading" class="hide">
           <h2>Loading . . .</h2>
         </div>
       </div>
     </main>
+
+    <div id="pagination"></div>
 
     <footer>
       <h5>All Right Reserved</h5>
@@ -48,5 +53,30 @@
       <h5>Special Thanks to Digimon API</h5>
     </footer>
 <script src="script.js"></script>
+<div id="pagination"></div>
+  
+    <script>
+        $(".wrapper #content-digimon__card").slice(6).hide();
+        $('#pagination').pagination({
+  
+            // Total number of items present
+            // in wrapper class
+            items: 209,
+  
+            // Items allowed on a single page
+            itemsOnPage: 6, 
+            onPageClick: function (noofele, load) {
+                $(".wrapper .item").hide()
+                    .slice(6*(noofele-1),
+                    6+ 6* (noofele - 1)).show();
+            }
+        });
+
+        $("#digimon-card__cont").load(function(noofele){
+          $(".wrapper .item").hide()
+                    .slice(6*(noofele-1),
+                    6+ 6* (noofele - 1)).show();
+        })
+    </script>
   </body>
 </html>
