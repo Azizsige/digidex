@@ -110,12 +110,12 @@ function getDigimonLevel(option) {
 }
 
 const renderAllDigimons = (digimons) => {
-  let firstNum = Math.floor(Math.random() * 209)
-  console.log(firstNum)
+  // let firstNum = Math.floor(Math.random() * 209)
+  // console.log(firstNum)
   listDigimonEl.innerHTML = ""
-  digimons.slice(firstNum, firstNum + 6).forEach(digimon => {
+  digimons.slice(0, 209).forEach(digimon => {
     listDigimonEl.innerHTML += `
-    <div id="content-digimon__card" class="content-digimon__card">
+    <div id="content-digimon__card" class="item">
     <img src="${digimon.img}" alt="" />
     <div id="content-digimon__card--desc">
     <h5>Name : ${digimon.name}</h5>
