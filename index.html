@@ -6,9 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google" content="notranslate" />
   <link rel="stylesheet" href="style.css" type="text/css" media="all" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/simplePagination.min.css">
   <title>Digimon Dex</title>
 </head>
 <body>
@@ -25,7 +22,7 @@
       <div id="content-search__filter">
         <label id="bylevel" for="level">Searching By Levels: </label>
         <select name="cars" id="level">
-          <option class="option" value="in-training">In Training</option>
+          <option class="option" value="In Training">In Training</option>
           <option class="option" value="Rookie">Rookie</option>
           <option class="option" value="Champion">Champion</option>
           <option class="option" value="Ultimate">Ultimate</option>
@@ -43,9 +40,12 @@
           <h2>Loading . . .</h2>
         </div>
       </div>
+      <div class="btnNext">
+        <button type="submit" class="hidePrev" id="prev">Prev</button>
+        <button type="submit" class="hideNext" id="next">Next</button>
+      </div>
+    </div>
     </main>
-
-    <div id="pagination"></div>
 
     <footer>
       <h5>All Right Reserved</h5>
@@ -53,30 +53,6 @@
       <h5>Special Thanks to Digimon API</h5>
     </footer>
 <script src="script.js"></script>
-<div id="pagination"></div>
   
-    <script>
-        $(".wrapper #content-digimon__card").slice(6).hide();
-        $('#pagination').pagination({
-  
-            // Total number of items present
-            // in wrapper class
-            items: 209,
-  
-            // Items allowed on a single page
-            itemsOnPage: 6, 
-            onPageClick: function (noofele, load) {
-                $(".wrapper .item").hide()
-                    .slice(6*(noofele-1),
-                    6+ 6* (noofele - 1)).show();
-            }
-        });
-
-        $("#digimon-card__cont").load(function(noofele){
-          $(".wrapper .item").hide()
-                    .slice(6*(noofele-1),
-                    6+ 6* (noofele - 1)).show();
-        })
-    </script>
   </body>
 </html>
