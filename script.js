@@ -3,43 +3,80 @@ const input = document.querySelector("#input");
 const listDigimonEl = document.querySelector("#digimon-card__cont");
 const containerDigimonEl = document.querySelector("#content-digimon");
 const resultLevel = document.querySelector("#result");
-const loader = document.querySelector("#loading")
-
+const loader = document.querySelector("#loading");
 const level = document.querySelector("#level");
+const nextBtn = document.getElementById("next");
+const prevBtn = document.getElementById("prev");
 
-
-
-level.addEventListener("change", function() {
-  resultLevel.innerHTML = ""
-  listDigimonEl.innerHTML = ""
+level.addEventListener("change", function () {
+  resultLevel.innerHTML = "";
+  listDigimonEl.innerHTML = "";
   listDigimonEl.innerHTML += `
   <div id="loading" class="hide">
   <h2>Searching All "${level.value}" Digimon</h2>
   </div>
-  `
-  console.log(level.text)
-  getDigimonLevel(level.value)
-})
-
+  `;
+  console.log(level.text);
+  getDigimonLevel(level.value);
+});
 
 function getDigimon() {
   const xhr = new XMLHttpRequest();
 
-  xhr.onload = function() {
-    const responseJson = JSON.parse(this.responseText)
+  xhr.onload = function () {
+    const responseJson = JSON.parse(this.responseText);
     if (responseJson.error) {
       showResponseMessage(responseJson.message);
     } else {
-
       renderAllDigimons(responseJson);
-      console.log(responseJson)
-      //console.log(digimonFirst)
+      console.log(responseJson);
     }
-  }
+  };
 
-  xhr.onerror = function() {
+  xhr.onerror = function () {
     showResponseMessage();
-  }
+  };
+
+  xhr.open("GET", "https://digimon-api.vercel.app/api/digimon");
+  xhr.send();
+}
+
+function nextDigimon() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.onload = function () {
+    const responseJson = JSON.parse(this.responseText);
+    if (responseJson.error) {
+      showResponseMessage(responseJson.message);
+    } else {
+      nextPage(responseJson);
+    }
+  };
+
+  xhr.onerror = function () {
+    showResponseMessage();
+  };
+
+  xhr.open("GET", "https://digimon-api.vercel.app/api/digimon");
+  // Mengirimkan request
+  xhr.send();
+}
+
+function prevDigimon() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.onload = function () {
+    const responseJson = JSON.parse(this.responseText);
+    if (responseJson.error) {
+      showResponseMessage(responseJson.message);
+    } else {
+      prevPage(responseJson);
+    }
+  };
+
+  xhr.onerror = function () {
+    showResponseMessage();
+  };
 
   xhr.open("GET", "https://digimon-api.vercel.app/api/digimon");
   // Mengirimkan request
@@ -49,13 +86,13 @@ function getDigimon() {
 function getDigimonInput() {
   const xhr = new XMLHttpRequest();
 
-  xhr.onload = function() {
-    const responseJson = JSON.parse(this.responseText)
+  xhr.onload = function () {
+    const responseJson = JSON.parse(this.responseText);
     if (responseJson.error) {
-      console.log(responseJson.ErrorMsg)
+      console.log(responseJson.ErrorMsg);
     } else {
       if (responseJson.ErrorMsg) {
-        resultLevel.innerHTML = ``
+        resultLevel.innerHTML = ``;
         resultLevel.innerHTML = `
         <h4>Result for "${input.value}"</h4>
         `;
@@ -65,7 +102,7 @@ function getDigimonInput() {
         <h2>"${input.value}" is not found! </h2>
         </div>
         `;
-        input.value = ""
+        input.value = "";
       } else {
         if (input.value == "") {
           listDigimonEl.innerHTML = "";
@@ -74,35 +111,38 @@ function getDigimonInput() {
           <h2>"${input.value}" is not found! </h2>
           </div>
           `;
-          console.log("kosong")
+          console.log("kosong");
         } else {
-          renderDigimonInput(responseJson)
-          input.value = ""
+          renderDigimonInput(responseJson);
+          input.value = "";
         }
       }
     }
-  }
+  };
 
-  xhr.onerror = function() {
-    console.log("coba lagi")
-  }
+  xhr.onerror = function () {
+    console.log("coba lagi");
+  };
 
-  xhr.open("GET", `https://digimon-api.vercel.app/api/digimon/name/${input.value}`);
+  xhr.open(
+    "GET",
+    `https://digimon-api.vercel.app/api/digimon/name/${input.value}`
+  );
   xhr.send();
 }
 
 function getDigimonLevel(option) {
   const xhr = new XMLHttpRequest();
 
-  xhr.onload = function() {
+  xhr.onload = function () {
     const responseJson = JSON.parse(this.responseText);
     renderDigimonLevel(responseJson);
-    console.log(responseJson)
-  }
+    console.log(responseJson);
+  };
 
-  xhr.onerror = function() {
+  xhr.onerror = function () {
     showResponseMessage();
-  }
+  };
 
   xhr.open("GET", `https://digimon-api.vercel.app/api/digimon/level/${option}`);
   // Mengirimkan request
@@ -110,12 +150,11 @@ function getDigimonLevel(option) {
 }
 
 const renderAllDigimons = (digimons) => {
-  // let firstNum = Math.floor(Math.random() * 209)
-  // console.log(firstNum)
-  listDigimonEl.innerHTML = ""
-  digimons.slice(0, 209).forEach(digimon => {
+  let firstNum = 0;
+  listDigimonEl.innerHTML = "";
+  digimons.slice(firstNum, firstNum + 6).forEach((digimon) => {
     listDigimonEl.innerHTML += `
-    <div id="content-digimon__card" class="item">
+    <div id="content-digimon__card" class="item" data-index="${firstNum++}">
     <img src="${digimon.img}" alt="" />
     <div id="content-digimon__card--desc">
     <h5>Name : ${digimon.name}</h5>
@@ -124,18 +163,17 @@ const renderAllDigimons = (digimons) => {
     </div>
     `;
   });
-
-  // loadingScroll.classList.remove("")
+  console.log(firstNum);
 };
 
 const renderDigimonInput = (digimons) => {
-  resultLevel.innerHTML =""
+  resultLevel.innerHTML = "";
   resultLevel.innerHTML = `
   <h4>Result for "${input.value}"</h4>
   `;
 
-  listDigimonEl.innerHTML = ""
-  digimons.forEach(digimon => {
+  listDigimonEl.innerHTML = "";
+  digimons.forEach((digimon) => {
     listDigimonEl.innerHTML += `
     <div id="digimon-user">
     <div id="content-digimon__card">
@@ -148,16 +186,15 @@ const renderDigimonInput = (digimons) => {
     </div>
     `;
   });
-
 };
 
 const renderDigimonLevel = (digimons) => {
-  listDigimonEl.innerHTML = ""
-  resultLevel.innerHTML = ""
+  listDigimonEl.innerHTML = "";
+  resultLevel.innerHTML = "";
   resultLevel.innerHTML = `
   <h4>Result for "${level.value}"</h4>
-  `
-  digimons.forEach(digimon => {
+  `;
+  digimons.forEach((digimon) => {
     listDigimonEl.innerHTML += `
     <div id="content-digimon__card">
     <img src="${digimon.img}" alt="" />
@@ -168,18 +205,120 @@ const renderDigimonLevel = (digimons) => {
     </div>
     `;
   });
-
 };
 
-btnSearch.addEventListener('click', function() {
-  resultLevel.innerHTML = ""
-  listDigimonEl.innerHTML = ""
+btnSearch.addEventListener("click", function () {
+  resultLevel.innerHTML = "";
+  listDigimonEl.innerHTML = "";
   listDigimonEl.innerHTML += `
   <div id="loading" class="hide">
   <h2>Searching "${input.value}"</h2>
   </div>
-  `
-  getDigimonInput()
-})
+  `;
+  getDigimonInput();
+});
 
-getDigimon()
+// Pagination
+// Next
+function nextPage(digimons) {
+  let index = listDigimonEl.lastElementChild;
+  let lastIndex = parseInt(index.getAttribute("data-index")) + 1;
+  console.log(lastIndex);
+
+  listDigimonEl.innerHTML = "";
+
+  digimons.slice(lastIndex, lastIndex + 6).forEach((digimon) => {
+    if (lastIndex == 204) {
+      console.log(digimon);
+      listDigimonEl.innerHTML += `
+    <div id="content-digimon__card" class="item" data-index="${lastIndex++}">
+    <img src="${digimon.img}" alt="" />
+    <div id="content-digimon__card--desc">
+    <h5>Name : ${digimon.name}</h5>
+    <h5>Level : ${digimon.level}</h5>
+    </div>
+    </div>
+    `;
+      nextBtn.style.display = "none";
+    } else {
+      console.log(digimon);
+      listDigimonEl.innerHTML += `
+    <div id="content-digimon__card" class="item" data-index="${lastIndex++}">
+    <img src="${digimon.img}" alt="" />
+    <div id="content-digimon__card--desc">
+    <h5>Name : ${digimon.name}</h5>
+    <h5>Level : ${digimon.level}</h5>
+    </div>
+    </div>
+    `;
+
+    prevBtn.style.display = "block";
+    }
+  });
+}
+
+nextBtn.addEventListener("click", function () {
+  nextDigimon();
+  window.scrollTo({
+    top: 0,
+  });
+});
+
+// Prev
+function prevPage(digimons) {
+  let index = listDigimonEl.firstElementChild;
+  let firstIndex = parseInt(index.getAttribute("data-index")) - 6;
+  console.log(firstIndex);
+
+  listDigimonEl.innerHTML = "";
+
+  digimons.slice(firstIndex, firstIndex + 6).forEach((digimon) => {
+    
+    console.log(digimon);
+    if (firstIndex == 0) {
+      console.log(digimon);
+      listDigimonEl.innerHTML += `
+    <div id="content-digimon__card" class="item" data-index="${firstIndex++}">
+    <img src="${digimon.img}" alt="" />
+    <div id="content-digimon__card--desc">
+    <h5>Name : ${digimon.name}</h5>
+    <h5>Level : ${digimon.level}</h5>
+    </div>
+    </div>
+    `;
+      prevBtn.style.display = "none";
+    } else {
+      console.log(digimon);
+      listDigimonEl.innerHTML += `
+    <div id="content-digimon__card" class="item" data-index="${firstIndex++}">
+    <img src="${digimon.img}" alt="" />
+    <div id="content-digimon__card--desc">
+    <h5>Name : ${digimon.name}</h5>
+    <h5>Level : ${digimon.level}</h5>
+    </div>
+    </div>
+    `;
+    nextBtn.style.display = "block";
+
+    }
+  });
+}
+
+prevBtn.addEventListener("click", function () {
+  prevDigimon();
+  window.scrollTo({
+    top: 0,
+  });
+});
+
+window.addEventListener("scroll", () => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  if (clientHeight + scrollTop >= scrollHeight - 5) {
+    nextBtn.classList.add("show");
+  } else {
+    nextBtn.classList.remove("show");
+  }
+});
+
+// End of Infinite Scroll
+window.addEventListener("load", getDigimon());
