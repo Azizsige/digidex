@@ -174,17 +174,10 @@ const renderDigimonInput = (digimons) => {
 
   listDigimonEl.innerHTML = "";
   digimons.forEach((digimon) => {
-    listDigimonEl.innerHTML += `
-    <div id="digimon-user">
-    <div id="content-digimon__card">
-    <img src="${digimon.img}" alt="" />
-    <div id="content-digimon__card--desc">
-    <h5>Name : ${digimon.name}</h5>
-    <h5>Level : ${digimon.level}</h5>
-    </div>
-    </div>
-    </div>
-    `;
+    if (input.value == "") {
+      alert("Kosong");
+    } else {
+    }
   });
 };
 
@@ -208,14 +201,18 @@ const renderDigimonLevel = (digimons) => {
 };
 
 btnSearch.addEventListener("click", function () {
-  resultLevel.innerHTML = "";
-  listDigimonEl.innerHTML = "";
-  listDigimonEl.innerHTML += `
+  if (input.value == "") {
+    alert("Input tidak boleh kosong!");
+  } else {
+    resultLevel.innerHTML = "";
+    listDigimonEl.innerHTML = "";
+    listDigimonEl.innerHTML += `
   <div id="loading" class="hide">
   <h2>Searching "${input.value}"</h2>
   </div>
   `;
-  getDigimonInput();
+    getDigimonInput();
+  }
 });
 
 // Pagination
@@ -252,7 +249,7 @@ function nextPage(digimons) {
     </div>
     `;
 
-    prevBtn.style.display = "block";
+      prevBtn.style.display = "block";
     }
   });
 }
@@ -273,7 +270,6 @@ function prevPage(digimons) {
   listDigimonEl.innerHTML = "";
 
   digimons.slice(firstIndex, firstIndex + 6).forEach((digimon) => {
-    
     console.log(digimon);
     if (firstIndex == 0) {
       console.log(digimon);
@@ -298,8 +294,7 @@ function prevPage(digimons) {
     </div>
     </div>
     `;
-    nextBtn.style.display = "block";
-
+      nextBtn.style.display = "block";
     }
   });
 }
