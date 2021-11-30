@@ -5,6 +5,7 @@ const containerDigimonEl = document.querySelector("#content-digimon");
 const resultLevel = document.querySelector("#result");
 const loader = document.querySelector("#loading");
 const level = document.querySelector("#level");
+const parentBtn = document.getElementById('nextBtn');
 const nextBtn = document.getElementById("next");
 const prevBtn = document.getElementById("prev");
 
@@ -152,6 +153,7 @@ function getDigimonLevel(option) {
 const renderAllDigimons = (digimons) => {
   let firstNum = 0;
   listDigimonEl.innerHTML = "";
+  //arentBtn.innerHTML = "";
   digimons.slice(firstNum, firstNum + 6).forEach((digimon) => {
     listDigimonEl.innerHTML += `
     <div id="content-digimon__card" class="item" data-index="${firstNum++}">
@@ -163,6 +165,7 @@ const renderAllDigimons = (digimons) => {
     </div>
     `;
   });
+ nextBtn.style.display = "block"
   console.log(firstNum);
 };
 
@@ -174,17 +177,10 @@ const renderDigimonInput = (digimons) => {
 
   listDigimonEl.innerHTML = "";
   digimons.forEach((digimon) => {
-    listDigimonEl.innerHTML += `
-    <div id="digimon-user">
-    <div id="content-digimon__card">
-    <img src="${digimon.img}" alt="" />
-    <div id="content-digimon__card--desc">
-    <h5>Name : ${digimon.name}</h5>
-    <h5>Level : ${digimon.level}</h5>
-    </div>
-    </div>
-    </div>
-    `;
+    if (input.value == "") {
+      alert("Kosong");
+    } else {
+    }
   });
 };
 
@@ -208,14 +204,18 @@ const renderDigimonLevel = (digimons) => {
 };
 
 btnSearch.addEventListener("click", function () {
-  resultLevel.innerHTML = "";
-  listDigimonEl.innerHTML = "";
-  listDigimonEl.innerHTML += `
+  if (input.value == "") {
+    alert("Input tidak boleh kosong!");
+  } else {
+    resultLevel.innerHTML = "";
+    listDigimonEl.innerHTML = "";
+    listDigimonEl.innerHTML += `
   <div id="loading" class="hide">
   <h2>Searching "${input.value}"</h2>
   </div>
   `;
-  getDigimonInput();
+    getDigimonInput();
+  }
 });
 
 // Pagination
@@ -252,13 +252,13 @@ function nextPage(digimons) {
     </div>
     `;
 
-    prevBtn.style.display = "block";
+      prevBtn.style.display = "block";
     }
   });
 }
 
 nextBtn.addEventListener("click", function () {
-  nextDigimon();
+nextDigimon();
   window.scrollTo({
     top: 0,
   });
@@ -273,7 +273,6 @@ function prevPage(digimons) {
   listDigimonEl.innerHTML = "";
 
   digimons.slice(firstIndex, firstIndex + 6).forEach((digimon) => {
-    
     console.log(digimon);
     if (firstIndex == 0) {
       console.log(digimon);
@@ -298,14 +297,13 @@ function prevPage(digimons) {
     </div>
     </div>
     `;
-    nextBtn.style.display = "block";
-
+      nextBtn.style.display = "block";
     }
   });
 }
 
 prevBtn.addEventListener("click", function () {
-  prevDigimon();
+prevDigimon();
   window.scrollTo({
     top: 0,
   });
