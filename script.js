@@ -42,31 +42,89 @@ function findIndex(el, Elname) {
   return index
 }
 
-function nextPage(firstNum) {
-  const firstParent = firstNum;
-  let Firstindex = firstParent.getAttribute("data-index")
-  console.log(Firstindex)
-  let numFirst = parseInt(Firstindex) + 1;
+function nextPage(lastNum) {
+  const parentLastChild = lastNum;
+  let lastIndex = parentLastChild.getAttribute("data-index")
+  //console.log(Firstindex)
+  let numFirst = parseInt(lastIndex) + 1;
+  //console.log(numFirst)
   let numLast = numFirst + 6
   console.log(numFirst, numLast)
   const getData = getAll();
   getData.then(function(datas) {
     console.log(datas)
-    if (numLast == datas.length + 1) {
+    if (numFirst >= 208) {
       nextBtn.style.display = "none"
+      listDigimonEl.innerHTML= " ";
+      datas.slice(numFirst, numLast).forEach(function(digimon){
+listDigimonEl.innerHTML += `
+        <div id="content-digimon__card" data-index="${findIndex(datas, digimon.name)}">
+        <img loading="lazy" src="${digimon.img}" alt="" />
+        <div id="content-digimon__card--desc">
+        <h5 id="digimon-name">Name : ${digimon.name}</h5>
+        <h5>Level : ${digimon.level}</h5>
+        </div>
+        </div>
+        `
+      })
     } else {
+      listDigimonEl.innerHTML = " ";
+      datas.slice(numFirst, numLast).forEach(function(digimon) {
+        listDigimonEl.innerHTML += `
+        <div id="content-digimon__card" data-index="${findIndex(datas, digimon.name)}">
+        <img loading="lazy" src="${digimon.img}" alt="" />
+        <div id="content-digimon__card--desc">
+        <h5 id="digimon-name">Name : ${digimon.name}</h5>
+        <h5>Level : ${digimon.level}</h5>
+        </div>
+        </div>
+        `
+      })
+      prevBtn.style.display = "block"
+      nextBtn.style.display = "block"
+    }
+  })
+}
+
+function prevPage(firstNum) {
+  const firstParent = firstNum;
+  let Firstindex = firstParent.getAttribute("data-index")
+  console.log(Firstindex)
+  let numFirst = parseInt(Firstindex) - 6;
+  let numLast = numFirst + 6
+  console.log(numFirst, numLast)
+  const getData = getAll();
+  getData.then(function(datas) {
+    console.log(datas)
+    if (numFirst == 0) {
+      prevBtn.style.display = "none"
       listDigimonEl.innerHTML = " ";
       datas.slice(numFirst, numLast).forEach(function(digimon){
 listDigimonEl.innerHTML += `
-      <div id="content-digimon__card" data-index="${findIndex(datas, digimon.name)}">
-      <img loading="lazy" src="${digimon.img}" alt="" />
-      <div id="content-digimon__card--desc">
-      <h5 id="digimon-name">Name : ${digimon.name}</h5>
-      <h5>Level : ${digimon.level}</h5>
-      </div>
-      </div>
-      `
+        <div id="content-digimon__card" data-index="${findIndex(datas, digimon.name)}">
+        <img loading="lazy" src="${digimon.img}" alt="" />
+        <div id="content-digimon__card--desc">
+        <h5 id="digimon-name">Name : ${digimon.name}</h5>
+        <h5>Level : ${digimon.level}</h5>
+        </div>
+        </div>
+        `
       })
+    } else {
+      listDigimonEl.innerHTML = " ";
+      datas.slice(numFirst, numLast).forEach(function(digimon) {
+        listDigimonEl.innerHTML += `
+        <div id="content-digimon__card" data-index="${findIndex(datas, digimon.name)}">
+        <img loading="lazy" src="${digimon.img}" alt="" />
+        <div id="content-digimon__card--desc">
+        <h5 id="digimon-name">Name : ${digimon.name}</h5>
+        <h5>Level : ${digimon.level}</h5>
+        </div>
+        </div>
+        `
+      })
+      prevBtn.style.display = "block"
+      nextBtn.style.display = "block"
     }
   })
 }
@@ -78,6 +136,14 @@ nextBtn.addEventListener('click', function() {
   })
   let lastChild = listDigimonEl.children[5]
   nextPage(lastChild)
+})
+
+prevBtn.addEventListener('click', function() {
+  window.scrollTo({
+    top: 0
+  })
+  let firstChild = listDigimonEl.children[0]
+  prevPage(firstChild)
 })
 // End of Fetch All Digimon and Render
 
