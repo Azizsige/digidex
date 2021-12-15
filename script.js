@@ -55,7 +55,7 @@ function nextPage(lastNum) {
   const getData = getAll();
   getData.then(function (datas) {
     console.log(datas);
-    if (numFirst >= 208) {
+    if (numFirst > 209) {
       nextBtn.style.display = "none";
       listDigimonEl.innerHTML = " ";
       datas.slice(numFirst, numLast).forEach(function (digimon) {
@@ -189,6 +189,7 @@ level.addEventListener("change", function () {
   console.log(level.value);
   nextBtn.classList.add("levels");
   prevBtn.classList.add("levels");
+  prevBtn.style.display = 'block';
   nextBtn.classList.remove("all");
   prevBtn.classList.remove("all");
   renderLevels(level.value);
