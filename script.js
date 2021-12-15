@@ -213,7 +213,7 @@ function nextPageLev(lastNum) {
         numFirst >= 208 ||
         numLast == datas.length + 1 ||
         numFirst == datas.length - 1 ||
-        numFirst <= datas.length
+        numLast > datas.length
       ) {
         nextBtn.style.display = "none";
         prevBtn.style.display = "block";
