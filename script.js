@@ -48,10 +48,10 @@ function nextPage(lastNum) {
   const parentLastChild = lastNum;
   let lastIndex = parentLastChild.getAttribute("data-index");
   //console.log(Firstindex)
-  let numFirst = parseInt(lastIndex) + 1;
+  let numFirst = parseInt(lastIndex) + 2;
   //console.log(numFirst)
   let numLast = numFirst + 6;
-  console.log(numFirst, numLast);
+  console.log(`Next Page All : ${numFirst, numLast}`);
   const getData = getAll();
   getData.then(function (datas) {
     console.log(datas);
@@ -404,8 +404,10 @@ prevBtn.addEventListener("click", function (e) {
     console.log("Yeyyy");
     // console.log(lastChild);
     prevPageLev(firstChild);
+    return;
   } else if (target.includes("all")) {
     prevPage(firstChild);
+    return;
   }
   console.log(target);
 });
