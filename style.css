@@ -144,7 +144,7 @@ navbar h2 {
 }
 
 .btnNext button.hideNext {
-  opacity: 1;
+  display: none;
 }
 
 .btnNext button.hidePrev {
@@ -153,11 +153,6 @@ navbar h2 {
 
 .btnNext button.show {
   opacity: 1;
-}
-
-
-.hide {
-  display: none;
 }
 
 @keyframes loading {
