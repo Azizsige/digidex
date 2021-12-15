@@ -51,7 +51,7 @@ function nextPage(lastNum) {
   let numFirst = parseInt(lastIndex) + 2;
   //console.log(numFirst)
   let numLast = numFirst + 6;
-  console.log(`Next Page All : ${numFirst, numLast}`);
+  console.log(`Next Page All : ${(numFirst, numLast)}`);
   const getData = getAll();
   getData.then(function (datas) {
     console.log(datas);
@@ -189,7 +189,8 @@ level.addEventListener("change", function () {
   console.log(level.value);
   nextBtn.classList.add("levels");
   prevBtn.classList.add("levels");
-  prevBtn.style.display = 'block';
+  prevBtn.style.display = "none";
+  nextBtn.style.display = "block";
   nextBtn.classList.remove("all");
   prevBtn.classList.remove("all");
   renderLevels(level.value);
@@ -206,9 +207,16 @@ function nextPageLev(lastNum) {
   getData.then(function (datas) {
     listDigimonEl.innerHTML = "";
     datas.slice(numFirst, numLast).forEach(function (digimon) {
+      console.log(numFirst, numLast);
       console.log(datas);
-      if (numFirst >= 208 || numFirst >= 29) {
+      if (
+        numFirst >= 208 ||
+        numLast == datas.length + 1 ||
+        numFirst == datas.length - 1 ||
+        numFirst <= datas.length
+      ) {
         nextBtn.style.display = "none";
+        prevBtn.style.display = "block";
         listDigimonEl.innerHTML = " ";
         datas.slice(numFirst, numLast).forEach(function (digimon) {
           listDigimonEl.innerHTML += `
@@ -259,6 +267,7 @@ function prevPageLev(firstNum) {
     console.log(datas);
     if (numFirst == 0) {
       prevBtn.style.display = "none";
+      nextBtn.style.display = "block";
       listDigimonEl.innerHTML = " ";
       datas.slice(numFirst, numLast).forEach(function (digimon) {
         listDigimonEl.innerHTML += `
@@ -352,6 +361,9 @@ function renderInput() {
       input.value = "";
     });
   });
+
+  nextBtn.style.display = "none";
+  prevBtn.style.display = "none";
 }
 
 btnSearch.addEventListener("click", function () {
