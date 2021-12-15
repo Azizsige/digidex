@@ -188,7 +188,9 @@ level.addEventListener("change", function () {
   `;
   console.log(level.value);
   nextBtn.classList.add("levels");
+  prevBtn.classList.add("levels");
   nextBtn.classList.remove("all");
+  prevBtn.classList.remove("all");
   renderLevels(level.value);
 });
 
@@ -241,6 +243,55 @@ function nextPageLev(lastNum) {
         nextBtn.style.display = "block";
       }
     });
+  });
+}
+
+function prevPageLev(firstNum) {
+  const firstParent = firstNum;
+  let Firstindex = firstParent.getAttribute("data-index");
+  console.log(Firstindex);
+  let numFirst = parseInt(Firstindex) - 5;
+  let numLast = numFirst + 5;
+  console.log(numFirst, numLast);
+  const getData = getLevels(level.value);
+  getData.then(function (datas) {
+    console.log(datas);
+    if (numFirst == 0) {
+      prevBtn.style.display = "none";
+      listDigimonEl.innerHTML = " ";
+      datas.slice(numFirst, numLast).forEach(function (digimon) {
+        listDigimonEl.innerHTML += `
+        <div id="content-digimon__card" data-index="${findIndex(
+          datas,
+          digimon.name
+        )}">
+        <img loading="lazy" src="${digimon.img}" alt="" />
+        <div id="content-digimon__card--desc">
+        <h5 id="digimon-name">Name : ${digimon.name}</h5>
+        <h5>Level : ${digimon.level}</h5>
+        </div>
+        </div>
+        `;
+      });
+    } else {
+      listDigimonEl.innerHTML = " ";
+      datas.slice(numFirst, numLast).forEach(function (digimon) {
+        listDigimonEl.innerHTML += `
+        <div id="content-digimon__card" data-index="${findIndex(
+          datas,
+          digimon.name
+        )}">
+        <img loading="lazy" src="${digimon.img}" alt="" />
+        <div id="content-digimon__card--desc">
+        <h5 id="digimon-name">Name : ${digimon.name}</h5>
+        <h5>Level : ${digimon.level}</h5>
+        </div>
+        </div>
+        `;
+      });
+      prevBtn.style.display = "block";
+      nextBtn.style.display = "block";
+    }
   });
 }
 // Fetch Digimon By Level and Render it
@@ -323,6 +374,7 @@ btnSearch.addEventListener("click", function () {
 window.addEventListener("DOMContentLoaded", function () {
   renderAll();
   nextBtn.classList.add("all");
+  prevBtn.classList.add("all");
 });
 
 nextBtn.addEventListener("click", function (e) {
@@ -341,10 +393,19 @@ nextBtn.addEventListener("click", function (e) {
   console.log(target);
 });
 
-prevBtn.addEventListener("click", function () {
+prevBtn.addEventListener("click", function (e) {
   window.scrollTo({
     top: 0,
   });
   let firstChild = listDigimonEl.children[0];
-  prevPage(firstChild);
+  // prevPage(firstChild);
+  let target = e.target.className;
+  if (target.includes("levels")) {
+    console.log("Yeyyy");
+    // console.log(lastChild);
+    prevPageLev(firstChild);
+  } else if (target.includes("all")) {
+    prevPage(firstChild);
+  }
+  console.log(target);
 });
