@@ -153,6 +153,14 @@ navbar h2 {
   cursor: pointer;
 }
 
+#btn-search {
+  border: none;
+  background-color: #444e4e;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .btnNext button.hideNext {
   display: none;
 }
