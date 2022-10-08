@@ -64,6 +64,11 @@ navbar h2 {
   width: 6rem;
   height: 2rem;
   font-size: 0.9rem;
+  border: none;
+  background-color: #444e4e;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #bylevel {
